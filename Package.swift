@@ -2,6 +2,47 @@
 
 import CompilerPluginSupport
 import PackageDescription
+import Foundation
+
+let tag = "509.1.1" // swift-syntax version
+let zver = "1.0.11" // tag of zipped xcframeworks
+let repo = "https://github.com/johnno1962/InstantSyntax/raw/\(zver)/\(tag)/"
+let clone = #filePath.replacingOccurrences(of: "Package.swift", with: "")
+let modules: [(name: String, depends: [String])] = [
+  ("SwiftBasicFormat", ["SwiftSyntax509"]),
+  // *** Resolving source editor problems (SourceKit) ***
+  // It might be more correct to uncomment this line and it might even solve a few
+  // problems but it results in a scree of error messages with the current Xcode 15.2
+  // about "duplicate copy commands being generated" when you are using more than one
+  // macro defining package. They should really be just warnings. This is an SPM bug.
+  // This may even have been fixed already with 5.10 or more recent 5.9 toolchains.
+  ("SwiftCompilerPlugin", []),//["SwiftSyntaxMacroExpansion", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftBasicFormat", "SwiftOperators", "SwiftParser", "SwiftDiagnostics", "SwiftSyntax", "SwiftSyntax509"]),
+  ("SwiftCompilerPluginMessageHandling", ["SwiftSyntaxMacroExpansion", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftBasicFormat", "SwiftOperators", "SwiftParser", "SwiftDiagnostics", "SwiftSyntax", "SwiftSyntax509"]),
+  ("SwiftDiagnostics", ["SwiftSyntax509"]),
+  ("SwiftOperators", ["SwiftParser", "SwiftDiagnostics", "SwiftSyntax", "SwiftSyntax509"]),
+  ("SwiftParser", ["SwiftSyntax", "SwiftSyntax509"]),
+  ("SwiftParserDiagnostics", ["SwiftParser", "SwiftDiagnostics", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
+  ("SwiftSyntax", ["SwiftSyntax509"]),
+  ("SwiftSyntax509", []),
+  ("SwiftSyntaxBuilder", ["SwiftParserDiagnostics", "SwiftDiagnostics", "SwiftParser", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
+  ("SwiftSyntaxMacroExpansion", ["SwiftOperators", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftDiagnostics", "SwiftParser", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
+  ("SwiftSyntaxMacros", ["SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftSyntax", "SwiftSyntax509"]),
+  ("SwiftSyntaxMacrosTestSupport", ["_SwiftSyntaxTestSupport", "SwiftSyntaxMacroExpansion", "SwiftOperators", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftDiagnostics", "SwiftParser", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
+  ("_SwiftSyntaxTestSupport", ["SwiftSyntaxMacroExpansion", "SwiftOperators", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftDiagnostics", "SwiftParser", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
+]
+
+// As compiler plugins are sandboxed, binary frameworks cannot be loaded.
+// Adding these flags to the InstantSyntax target means they are added to
+// the linking of all macro plugins. They override all the frameworks to be
+// weak so they don't even attempt to load (which will just fail) and rely
+// on the statically linked versions from the SwiftSyntax library archive
+// included in the repo. Finally, fix up the search paths for frameworks.
+let platforms = ["macos-arm64_x86_64", "ios-arm64_x86_64-simulator", "ios-arm64"]
+let staticLink = ["\(clone)\(tag)/libSwiftSyntax.a"] +
+    modules.map { $0.name }.flatMap({ module in
+    ["-weak_framework", module] + platforms.flatMap({
+        ["-F", "\(clone)\(tag)/\(module).xcframework/\($0)"] })
+    })
 
 let package = Package(
   name: "swift-syntax",
@@ -11,125 +52,88 @@ let package = Package(
     .tvOS(.v13),
     .watchOS(.v6),
   ],
-  products: [
-     .library(name: "InstantSyntax", targets: ["InstantSyntax"]),
-     .library(name: "SwiftBasicFormat", targets: ["SwiftBasicFormat"]),
-     .library(name: "SwiftCompilerPlugin", targets: ["SwiftCompilerPlugin"]),
-     .library(name: "SwiftCompilerPluginMessageHandling", targets: ["SwiftCompilerPluginMessageHandling"]),
-     .library(name: "SwiftDiagnostics", targets: ["SwiftDiagnostics"]),
-     .library(name: "SwiftOperators", targets: ["SwiftOperators"]),
-     .library(name: "SwiftParser", targets: ["SwiftParser"]),
-     .library(name: "SwiftParserDiagnostics", targets: ["SwiftParserDiagnostics"]),
-     .library(name: "SwiftSyntax", targets: ["SwiftSyntax"]),
-     .library(name: "SwiftSyntax509", targets: ["SwiftSyntax509"]),
-     .library(name: "SwiftSyntaxBuilder", targets: ["SwiftSyntaxBuilder"]),
-     .library(name: "SwiftSyntaxMacroExpansion", targets: ["SwiftSyntaxMacroExpansion"]),
-     .library(name: "SwiftSyntaxMacros", targets: ["SwiftSyntaxMacros"]),
-     .library(name: "SwiftSyntaxMacrosTestSupport", targets: ["SwiftSyntaxMacrosTestSupport"]),
-     .library(name: "_SwiftSyntaxTestSupport", targets: ["_SwiftSyntaxTestSupport"]),  ],
+  
+  products: modules.map {
+      .library(name: $0.name, type: .static, targets: [$0.name, "InstantSyntax"]
+               + $0.depends
+    ) },
+
   targets: [
+    // a target to patch the linker command for all macro plugins (see above)
     .target(
       name: "InstantSyntax",
-      dependencies: [
-        "SwiftBasicFormat",
-        "SwiftCompilerPlugin",
-        "SwiftCompilerPluginMessageHandling",
-        "SwiftDiagnostics",
-        "SwiftOperators",
-        "SwiftParser",
-        "SwiftParserDiagnostics",
-        "SwiftSyntax",
-        "SwiftSyntax509",
-        "SwiftSyntaxBuilder",
-        "SwiftSyntaxMacroExpansion",
-        "SwiftSyntaxMacros",
-        "SwiftSyntaxMacrosTestSupport",
-        "_SwiftSyntaxTestSupport",
-      ]
+//      dependencies: modules.map {Target.Dependency(stringLiteral: $0.name)},
+      linkerSettings: [.unsafeFlags(staticLink)]
     ),
-    // .library(name: "SwiftBasicFormat", targets: ["SwiftBasicFormat"]),
     .binaryTarget(
         name: "SwiftBasicFormat",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftBasicFormat.framework.xcframework.zip",
-        checksum: "1a46504376d662c419617e6423207e236fd313834cc8eaddf38bc24d00e98d5a"
+        url: repo + "SwiftBasicFormat.xcframework.zip",
+        checksum: "65ed8310174ca7c61b7fa0969050f1127265d256cce48ebc875a6c06fc7d8a4b"
     ),
-    // .library(name: "SwiftCompilerPlugin", targets: ["SwiftCompilerPlugin"]),
     .binaryTarget(
         name: "SwiftCompilerPlugin",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftCompilerPlugin.framework.xcframework.zip",
-        checksum: "a41af23effd566cd5fde1d367b7cfa3b9c7325a6cb49cbc430142fe37f586058"
+        url: repo + "SwiftCompilerPlugin.xcframework.zip",
+        checksum: "1d1ae1d02e17e521ce28bd173bd56603beff0a3d3c19227e8612c675d0e2e9e1"
     ),
-    // .library(name: "SwiftCompilerPluginMessageHandling", targets: ["SwiftCompilerPluginMessageHandling"]),
     .binaryTarget(
         name: "SwiftCompilerPluginMessageHandling",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftCompilerPluginMessageHandling.framework.xcframework.zip",
-        checksum: "a1dee1eacbf26ae36942fab79b2dcf42705b7923ce0b9ea0611d00576eebb5db"
+        url: repo + "SwiftCompilerPluginMessageHandling.xcframework.zip",
+        checksum: "885b4947f16a035174aa240aa1e043091e4bcdf41ca1b518c028127658fd27ea"
     ),
-    // .library(name: "SwiftDiagnostics", targets: ["SwiftDiagnostics"]),
     .binaryTarget(
         name: "SwiftDiagnostics",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftDiagnostics.framework.xcframework.zip",
-        checksum: "710cbc008e8ab290236979df3430364a2c07112510d10c689ef05c1e380ee2af"
+        url: repo + "SwiftDiagnostics.xcframework.zip",
+        checksum: "5699d76e8a98b027c4d8d1ff55c5febef0c011dbf9c19a58b045b7e60f5b0f73"
     ),
-    // .library(name: "SwiftOperators", targets: ["SwiftOperators"]),
     .binaryTarget(
         name: "SwiftOperators",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftOperators.framework.xcframework.zip",
-        checksum: "90a0213c8b5ab2e5096604f75ba232d871fd1481cb697f3c910b35be0b0b8224"
+        url: repo + "SwiftOperators.xcframework.zip",
+        checksum: "0e9df6f921ea7369478296e9de61c10647f3d7617bc587573caf0299bae99feb"
     ),
-    // .library(name: "SwiftParser", targets: ["SwiftParser"]),
     .binaryTarget(
         name: "SwiftParser",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftParser.framework.xcframework.zip",
-        checksum: "d5d474c7d817315656b5336a53c83ec5be52ed0ee65b3b0b5d618feacb55abb5"
+        url: repo + "SwiftParser.xcframework.zip",
+        checksum: "802072fb39b49121165e72debf575101d9c425c299bbd3a0bfbe833ed799583b"
     ),
-    // .library(name: "SwiftParserDiagnostics", targets: ["SwiftParserDiagnostics"]),
     .binaryTarget(
         name: "SwiftParserDiagnostics",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftParserDiagnostics.framework.xcframework.zip",
-        checksum: "3fdfe2e2b3c5104d19875d5770bfddaf4fb8c351e0b798397f94291ea5faa992"
+        url: repo + "SwiftParserDiagnostics.xcframework.zip",
+        checksum: "9080bbe4ebfd3805b4d31eb7d41d5a516329921880778bbe5887ef8142aa5ae1"
     ),
-    // .library(name: "SwiftSyntax", targets: ["SwiftSyntax"]),
     .binaryTarget(
         name: "SwiftSyntax",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftSyntax.framework.xcframework.zip",
-        checksum: "c659cced33e3bcd7656c16708db404e69f2f826ff6f2cd0ef5fb0c96a1f63955"
+        url: repo + "SwiftSyntax.xcframework.zip",
+        checksum: "c02347fa0522dcfccbb6c75d63a3cf35da392329aef8a10cd8d220a47d722be4"
     ),
-    // .library(name: "SwiftSyntax509", targets: ["SwiftSyntax509"]),
     .binaryTarget(
         name: "SwiftSyntax509",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftSyntax509.framework.xcframework.zip",
-        checksum: "4418e6b81c420dfcd6eb85f4da8994ed140ce132889d995a55e4d62da8b852ac"
+        url: repo + "SwiftSyntax509.xcframework.zip",
+        checksum: "f0e83a798d71e9c043aea9564081edd592b8c1b698e0b87234b764087e9d1281"
     ),
-    // .library(name: "SwiftSyntaxBuilder", targets: ["SwiftSyntaxBuilder"]),
     .binaryTarget(
         name: "SwiftSyntaxBuilder",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftSyntaxBuilder.framework.xcframework.zip",
-        checksum: "62989ed837d4288790d66bba4f086df7270ee3f312f233fcb3210dffa1a31672"
+        url: repo + "SwiftSyntaxBuilder.xcframework.zip",
+        checksum: "d5c28e33d8c287563b900bcacd02084c6aba15165bb529e6ba39685f244db9d6"
     ),
-    // .library(name: "SwiftSyntaxMacroExpansion", targets: ["SwiftSyntaxMacroExpansion"]),
     .binaryTarget(
         name: "SwiftSyntaxMacroExpansion",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftSyntaxMacroExpansion.framework.xcframework.zip",
-        checksum: "0265aebaa51a1aa17cddcb45a795738b0b02e4611d4c577261ce2a8fe8ec45da"
+        url: repo + "SwiftSyntaxMacroExpansion.xcframework.zip",
+        checksum: "9a6fae2bb85e436753359806372443c7fa0ddb6633954879b2fbcfd1b89345d7"
     ),
-    // .library(name: "SwiftSyntaxMacros", targets: ["SwiftSyntaxMacros"]),
     .binaryTarget(
         name: "SwiftSyntaxMacros",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftSyntaxMacros.framework.xcframework.zip",
-        checksum: "3975dec36f2cc6e78074561767a1ca127f03e3de5203e30f8f98f50c064c1bdd"
+        url: repo + "SwiftSyntaxMacros.xcframework.zip",
+        checksum: "d2a0147ebddee5fff59a1002762b7abba2fd397673fe11777288dfee0ace6269"
     ),
-    // .library(name: "SwiftSyntaxMacrosTestSupport", targets: ["SwiftSyntaxMacrosTestSupport"]),
     .binaryTarget(
         name: "SwiftSyntaxMacrosTestSupport",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/SwiftSyntaxMacrosTestSupport.framework.xcframework.zip",
-        checksum: "dcd78ad1553f53db6d9c02eeb55810a3c22ebea0fc1cd5bce1435235c1dd8c22"
+        url: repo + "SwiftSyntaxMacrosTestSupport.xcframework.zip",
+        checksum: "3b2498b29538f8bae2d69210e7a4a6b4911436af9d358aa9ed4b895273987410"
     ),
-    // .library(name: "_SwiftSyntaxTestSupport", targets: ["_SwiftSyntaxTestSupport"]),
     .binaryTarget(
         name: "_SwiftSyntaxTestSupport",
-        url: "https://github.com/johnno1962/InstantSyntax/raw/main/509.1.1/_SwiftSyntaxTestSupport.framework.xcframework.zip",
-        checksum: "afac9280454858656434be8076a823fe32b6452b3ea744d116464660e8f90d91"
+        url: repo + "_SwiftSyntaxTestSupport.xcframework.zip",
+        checksum: "e92ad786336d3977391a41ce91f3493b79b0bc4d894e879f8a7fe20fec19ccec"
     ),
   ]
 )
