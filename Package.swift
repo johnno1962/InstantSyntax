@@ -24,6 +24,18 @@ let modules = [
   "_SwiftSyntaxTestSupport",
 ]
 
+// As compiler plugins are sandboxed, binary frameworks cannot be loaded.
+// Adding these flags to the InstantSyntax target means they are added to
+// the linking of all macro plugins. They override all the frameworks to be
+// weak so they don't even attempt to load (which will just fail) and rely
+// on the statically linked versions from the SwiftSyntax library archive
+// included in the repo. Finally, fix up the search paths for frameworks.
+let platforms = ["macos-arm64_x86_64", "ios-arm64_x86_64-simulator", "ios-arm64"]
+let staticLink = ["\(clone)\(tag)/libSwiftSyntax.a"] + modules.flatMap({ module in
+    ["-weak_framework", module] + platforms.flatMap({
+        ["-F", "\(clone)\(tag)/\(module).xcframework/\($0)"] })
+    })
+
 let package = Package(
   name: "swift-syntax",
   platforms: [
@@ -37,17 +49,11 @@ let package = Package(
      .library(name: $0, type: .static, targets: [$0, "InstantSyntax"]) },
 
   targets: [
-    // a target to make sure all the binary frameworks are upacked and available.
+    // a target to patch the linker command for all macro plugins (see above)
     .target(
       name: "InstantSyntax",
-      dependencies: modules.map {Target.Dependency(stringLiteral: $0)},
-      // As compiler plugins are sandboxed the frameworks cannot be loaded.
-      // Add these flags to this target and they are added to the main link
-      // of each plugin. Override all the frameworks to be weak so they don't
-      // even attempt to load (which will just fail) and rely on the statically
-      // linked versions from the SwiftSyntax library archive included in the repo.
-      linkerSettings: [.unsafeFlags(["\(clone)\(tag)/libSwiftSyntax.a"] +
-                                    modules.flatMap({ ["-weak_framework", $0] }))]
+//      dependencies: modules.map {Target.Dependency(stringLiteral: $0)},
+      linkerSettings: [.unsafeFlags(staticLink)]
     ),
     .binaryTarget(
         name: "SwiftBasicFormat",
