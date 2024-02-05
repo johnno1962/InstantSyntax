@@ -5,9 +5,12 @@
 This is a Swift Package containg precompiled binary frameworks of the main 
 modules of the [swift-syntax](https://github.com/apple/swift-syntax) project.
 It is hoped this can be packaged up and used in place of the swit-syntax
-source repo by Swift Macro projects. It operates by overriding the
+source repo by Swift Macro projects to avoid [this problem people have
+ experienced](https://forums.swift.org/t/compilation-extremely-slow-since-macros-adoption/67921/59). 
+ It operates by overriding the
 swift-syntax source repo pulled in by your macros by dragging it 
-onto your project as you would to work on a Swift package.
+onto your project as you would to work on a Swift package as is
+[documented here](https://developer.apple.com/documentation/xcode/editing-a-package-dependency-as-a-local-package).
 
 These are a bit involved to build. First, you need to use an old Xcode 13 
 version of "swift package generate-xcodeproj" to generate a .xcodeproj
