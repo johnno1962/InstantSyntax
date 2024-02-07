@@ -9,7 +9,13 @@ let repo = "https://github.com/johnno1962/InstantSyntax/raw/main/\(tag)/"
 let clone = #filePath.replacingOccurrences(of: "Package.swift", with: "")
 let modules: [(name: String, depends: [String])] = [
   ("SwiftBasicFormat", ["SwiftSyntax509"]),
-  ("SwiftCompilerPlugin", ["SwiftSyntaxMacroExpansion", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftBasicFormat", "SwiftOperators", "SwiftParser", "SwiftDiagnostics", "SwiftSyntax", "SwiftSyntax509"]),
+  // *** Resolving source editor problems (SourceKit) ***
+  // It might be more correct to uncomment this line and it might even solve a few
+  // problems but it results in a scree of error messages with the current Xcode 15.2
+  // about "duplicate copy commands being generated" when you are using more than one
+  // macro defining package. They should really be just warnings. This is an SPM bug.
+  // This may even have been fixed already with 5.10 or more recent 5.9 toolchains.
+  ("SwiftCompilerPlugin", []),//["SwiftSyntaxMacroExpansion", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftBasicFormat", "SwiftOperators", "SwiftParser", "SwiftDiagnostics", "SwiftSyntax", "SwiftSyntax509"]),
   ("SwiftCompilerPluginMessageHandling", ["SwiftSyntaxMacroExpansion", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftBasicFormat", "SwiftOperators", "SwiftParser", "SwiftDiagnostics", "SwiftSyntax", "SwiftSyntax509"]),
   ("SwiftDiagnostics", ["SwiftSyntax509"]),
   ("SwiftOperators", ["SwiftParser", "SwiftDiagnostics", "SwiftSyntax", "SwiftSyntax509"]),
@@ -23,7 +29,6 @@ let modules: [(name: String, depends: [String])] = [
   ("SwiftSyntaxMacrosTestSupport", ["_SwiftSyntaxTestSupport", "SwiftSyntaxMacroExpansion", "SwiftOperators", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftDiagnostics", "SwiftParser", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
   ("_SwiftSyntaxTestSupport", ["SwiftSyntaxMacroExpansion", "SwiftOperators", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftDiagnostics", "SwiftParser", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
 ]
-let moduleNames = modules.map { $0.name }
 
 // As compiler plugins are sandboxed, binary frameworks cannot be loaded.
 // Adding these flags to the InstantSyntax target means they are added to
@@ -32,7 +37,8 @@ let moduleNames = modules.map { $0.name }
 // on the statically linked versions from the SwiftSyntax library archive
 // included in the repo. Finally, fix up the search paths for frameworks.
 let platforms = ["macos-arm64_x86_64", "ios-arm64_x86_64-simulator", "ios-arm64"]
-let staticLink = ["\(clone)\(tag)/libSwiftSyntax.a"] + moduleNames.flatMap({ module in
+let staticLink = ["\(clone)\(tag)/libSwiftSyntax.a"] +
+    modules.map { $0.name }.flatMap({ module in
     ["-weak_framework", module] + platforms.flatMap({
         ["-F", "\(clone)\(tag)/\(module).xcframework/\($0)"] })
     })
@@ -46,13 +52,9 @@ let package = Package(
     .watchOS(.v6),
   ],
   
-  products: moduleNames.map { name in
-    .library(name: name, type: .static, targets: [name, "InstantSyntax"]
-// It would be more correct to uncomment this line and it might even solve a few
-// problems but it results in a scree of error messages with the current Xcode 15.2
-// about "duplicate copy commands being generated" when you are using more than one
-// macro defining package. They should really be just warnings. This is an SPM bug.
-//             + (modules.first(where: { $0.name == name })?.depends ?? [])
+  products: modules.map {
+      .library(name: $0.name, type: .static, targets: [$0.name, "InstantSyntax"]
+               + $0.depends
     ) },
 
   targets: [

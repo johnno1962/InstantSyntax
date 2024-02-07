@@ -39,9 +39,33 @@ for them to work when the binary override is in place. Switching
 Xcode versions will also require you to remove, build and re-add
 the override.
 
-If you see an error along the lines of `External macro implementation 
-type 'XMacros.XMacro' could not be found for macro 'color'` in the 
-source editor (even if your project builds) this seems to be because 
-some files are missing from DerivedData that the binary package override 
-is not providing in the right place. You will need to remove the binary
+While this should be resoved now, if you see an error along the 
+lines of `External macro implementation type 'XMacros.XMacro' 
+could not be found for macro 'color'` in the source editor (even
+when your project builds) this seems to be because some files are 
+missing from DerivedData that the binary package override is not 
+providing in the right place. You will need to remove the binary
 override, build clean then add it again.
+
+If you still experience problems involving "duplicate copy commands
+being generated" when you try to build, this is beacuse the repo's
+Package.swift seems to tickle some sort of bug in the build system
+related to binary frameworks. This has already been fixed and working 
+its way through the Xcode release pipeline so in the meantime you 
+should better off downloading, installing and switching to one of 
+the recent 5.10 (or possibly 5.9) development branch toolchains from
+[https://www.swift.org/download/](https://www.swift.org/download/). 
+For example: 
+[this package](https://download.swift.org/swift-5.10-branch/xcode/swift-5.10-DEVELOPMENT-SNAPSHOT-2024-02-02-a/swift-5.10-DEVELOPMENT-SNAPSHOT-2024-02-02-a-osx.pkg).
+After you switch toolchains, close and re-open your Xcode project
+workspace window to be sure any in-memory build plans are not cached.
+Once you're up and running and the build has been "planned" you 
+may be able to switch back to Xcode's default toolchain. If you 
+continue using the toolchain you'll notice Previews break with 
+an error "'ld' not found". This is because the linker is not 
+distributed with the toolchain. You should just need to run 
+a variation on the following command to fix this:
+
+```
+ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld* ~/Library/Developer/Toolchains/swift-5.10-DEVELOPMENT-SNAPSHOT-2024-02-02-a.xctoolchain/usr/bin
+```
