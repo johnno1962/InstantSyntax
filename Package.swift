@@ -4,8 +4,9 @@ import CompilerPluginSupport
 import PackageDescription
 import Foundation
 
-let tag = "509.1.1"
-let repo = "https://github.com/johnno1962/InstantSyntax/raw/main/\(tag)/"
+let tag = "509.1.1" // swift-syntax version
+let zver = "1.0.8" // tag of zipped xcframeworks
+let repo = "https://github.com/johnno1962/InstantSyntax/raw/\(zver)/\(tag)/"
 let clone = #filePath.replacingOccurrences(of: "Package.swift", with: "")
 let modules: [(name: String, depends: [String])] = [
   ("SwiftBasicFormat", ["SwiftSyntax509"]),
@@ -61,7 +62,7 @@ let package = Package(
     // a target to patch the linker command for all macro plugins (see above)
     .target(
       name: "InstantSyntax",
-//      dependencies: modules.map {Target.Dependency(stringLiteral: $0)},
+//      dependencies: modules.map {Target.Dependency(stringLiteral: $0.name)},
       linkerSettings: [.unsafeFlags(staticLink)]
     ),
     .binaryTarget(
