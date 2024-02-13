@@ -1,6 +1,7 @@
 #!/bin/bash -x
 #
-# DIY rebuild all binary framework zip files from source.
+# DIY rebuild of all binary framework zip files from source.
+# This script takes about half an hour to run through.
 #
 # Make a fork of https://github.com/johnno1962/InstantSyntax
 # clone it and run this file inside the clone. After completion,
@@ -27,6 +28,15 @@ cd $SOURCE &&
 git stash &&
 git checkout $TAG &&
 
+# This seems to be the easiest way to regenerate the plugin static library.
+sed -e 's/, targets: /, type: .static, targets: /' Package.swift >P.swift &&
+mv -f P.swift Package.swift &&
+arch -arm64 swift build -c release &&
+arch -x86_64 swift build -c release &&
+lipo -create .build/*-apple-macosx/release/libSwiftCompilerPlugin.a -output $DEST/libSwiftSyntax.a &&
+git checkout Package.swift &&
+
+# These patches required when using xcodebuild.
 git apply <<PATCH &&
 diff --git a/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift b/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift
 index 0d138d55..2f7c1ffd 100644
@@ -92,26 +102,7 @@ done &&
 
 cd $DEST &&
 rm -f *.zip &&
-
-# There seems to be no easy way to automate
-# the building of the object files for the
-# static library that works using xcodebuild.
-# You need to create a project for macOS that
-# imports swift-syntax, build it for "Release"
-# and substitute the directory of the project's
-# "derived data" here:
-APPDD=sinmac-bylzjdritjmlskghpgrdoqqdrgwc
-
-if [ -d ~/Library/Developer/Xcode/DerivedData/$APPDD ]; then
-  for arch in arm64 x86_64; do
-    rm -f libSwiftSyntax-$arch.a
-    ar -r libSwiftSyntax-$arch.a ~/Library/Developer/Xcode/DerivedData/$APPDD/Build/Intermediates.noindex/swift-syntax.build/Release/*Swift*.build/Objects-normal/$arch/*.o
-    ranlib libSwiftSyntax-$arch.a
-  done
-
-  lipo -create libSwiftSyntax-*.a -output libSwiftSyntax.a &&
-  zip -9 libSwiftSyntax.a.zip libSwiftSyntax.a
-fi &&
+zip -9 libSwiftSyntax.a.zip libSwiftSyntax.a &&
 
 for f in *.xcframework; do
     zip -r9 --symlinks "$f.zip"  "$f" >>../../zips.txt

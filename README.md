@@ -15,7 +15,10 @@ onto your project as you would to work on a Swift package as is
 These are a bit involved to build. First, you need to use an old Xcode 13 
 version of "swift package generate-xcodeproj" to generate a .xcodeproj
 for the swift-syntax project. Then, you can generate and package 
-the binary frameworks using xcodebuild in the normal way.
+the binary frameworks using xcodebuild in the normal way. Where extra
+security is imperitive (even though compiler plugins execute in a very
+restrictive sandbox) there is a script in the repo that allows you to 
+build your own fork from the Apple sources which you can use instead.
 
 To use, build your project (and view any previews you would like 
 to view), then clone this repo, renaming the InstantSyntax directory 
