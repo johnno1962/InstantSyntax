@@ -73,7 +73,7 @@ index 5cbdba15..1f51b91a 100644
 PATCH
 
 if [ ! -d build ]; then
-  for sdk in macosx iphonesimulator iphoneos appletvsimulator appletvos; do
+  for sdk in macosx iphonesimulator iphoneos appletvsimulator appletvos xrsimulator xros; do
     xcodebuild archive -target SwiftSyntax-all -sdk $sdk -project swift-syntax.xcodeproj || exit 1
   done
 fi &&
@@ -90,18 +90,28 @@ for module in SwiftBasicFormat SwiftCompilerPlugin SwiftCompilerPluginMessageHan
     xcodebuild -create-xcframework $PLATFORMS -output $DEST/$module.xcframework || exit 1
 done &&
 
-rm -f libSwiftSyntax-*.a &&
-for arch in x86_64 arm64; do
-  ar -r libSwiftSyntax-$arch.a $DD/swift-syntax.build/Release/*Swift*.build/Objects-normal/$arch/*.o
-  ranlib libSwiftSyntax-$arch.a
-done &&
-
-lipo -create libSwiftSyntax-*.a -output $DEST/libSwiftSyntax.a &&
-
 cd $DEST &&
-
 rm -f *.zip &&
-zip -9 libSwiftSyntax.a.zip libSwiftSyntax.a &&
+
+# There seems to be no easy way to automate
+# the building of the object files for the
+# static library that works using xcodebuild.
+# You need to create a project for macOS that
+# imports swift-syntax, build it for "Release"
+# and substitute the directory of the project's
+# "derived data" here:
+APPDD=sinmac-bylzjdritjmlskghpgrdoqqdrgwc
+
+if [ -d ~/Library/Developer/Xcode/DerivedData/$APPDD ]; then
+  for arch in arm64 x86_64; do
+    rm -f libSwiftSyntax-$arch.a
+    ar -r libSwiftSyntax-$arch.a ~/Library/Developer/Xcode/DerivedData/$APPDD/Build/Intermediates.noindex/swift-syntax.build/Release/*Swift*.build/Objects-normal/$arch/*.o
+    ranlib libSwiftSyntax-$arch.a
+  done
+
+  lipo -create libSwiftSyntax-*.a -output libSwiftSyntax.a &&
+  zip -9 libSwiftSyntax.a.zip libSwiftSyntax.a
+fi &&
 
 for f in *.xcframework; do
     zip -r9 --symlinks "$f.zip"  "$f" >>../../zips.txt
