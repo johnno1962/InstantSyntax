@@ -28,7 +28,7 @@ to view), then clone this repo, renaming the InstantSyntax directory
 to swift-syntax and unpack the compressed archives using a script.
 
 ```
-git clone https://github.com/johnno1962/InstantSyntax swift-syntax
+git clone https://github.com/johnno1962/InstantSyntax -b main --single-branch swift-syntax
 ./swift-syntax/509.1.1/unpack.sh
 ```
 
