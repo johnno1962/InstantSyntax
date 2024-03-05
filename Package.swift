@@ -4,8 +4,8 @@ import CompilerPluginSupport
 import PackageDescription
 import Foundation
 
-let tag = "509.1.1" // swift-syntax version
-let zver = "1.0.11" // tag of zipped xcframeworks
+let tag = "510.0.0" // swift-syntax version
+let zver = "1.10.1" // tag of zipped xcframeworks
 let repo = "https://github.com/johnno1962/InstantSyntax/raw/\(zver)/\(tag)/"
 let clone = #filePath.replacingOccurrences(of: "Package.swift", with: "")
 let modules: [(name: String, depends: [String])] = [
@@ -68,72 +68,82 @@ let package = Package(
     .binaryTarget(
         name: "SwiftBasicFormat",
         url: repo + "SwiftBasicFormat.xcframework.zip",
-        checksum: "65ed8310174ca7c61b7fa0969050f1127265d256cce48ebc875a6c06fc7d8a4b"
+        checksum: "feecc41dd0ab4248dbcffd80d6f43979a73896ef58cfd79c89cfedd1990f89c5"
     ),
     .binaryTarget(
         name: "SwiftCompilerPlugin",
         url: repo + "SwiftCompilerPlugin.xcframework.zip",
-        checksum: "1d1ae1d02e17e521ce28bd173bd56603beff0a3d3c19227e8612c675d0e2e9e1"
+        checksum: "f2d8a5843c4507635ebbd5e33b2bbf9c93130ce80bf18c632545baefefb561ba"
     ),
     .binaryTarget(
         name: "SwiftCompilerPluginMessageHandling",
         url: repo + "SwiftCompilerPluginMessageHandling.xcframework.zip",
-        checksum: "885b4947f16a035174aa240aa1e043091e4bcdf41ca1b518c028127658fd27ea"
+        checksum: "5ce9257cb0b725e9da7bfec896a0ecd77f931897bf67520be4538edb423bdeac"
     ),
     .binaryTarget(
         name: "SwiftDiagnostics",
         url: repo + "SwiftDiagnostics.xcframework.zip",
-        checksum: "5699d76e8a98b027c4d8d1ff55c5febef0c011dbf9c19a58b045b7e60f5b0f73"
+        checksum: "5e8b38c0c83143146bafebdca9396d6f7e9ebca9240fc0bfccb65e5385580304"
+    ),
+    .binaryTarget(
+        name: "SwiftIDEUtils",
+        url: repo + "SwiftIDEUtils.xcframework.zip",
+        checksum: "adf4bf62fd9fa3433cb282c3a77ae27d9d4b3bf5abffb81762ec1c66b4e9ff2a"
     ),
     .binaryTarget(
         name: "SwiftOperators",
         url: repo + "SwiftOperators.xcframework.zip",
-        checksum: "0e9df6f921ea7369478296e9de61c10647f3d7617bc587573caf0299bae99feb"
+        checksum: "cbeccbcd67063d1508f35348f7177f610b8f3667604e90a5a2662eed8ed426a6"
     ),
     .binaryTarget(
         name: "SwiftParser",
         url: repo + "SwiftParser.xcframework.zip",
-        checksum: "802072fb39b49121165e72debf575101d9c425c299bbd3a0bfbe833ed799583b"
+        checksum: "0269014e4cdb6fe480ab4c5ec62042ef6eb7f4aeb4c146f61823bd5f690a23f3"
     ),
     .binaryTarget(
         name: "SwiftParserDiagnostics",
         url: repo + "SwiftParserDiagnostics.xcframework.zip",
-        checksum: "9080bbe4ebfd3805b4d31eb7d41d5a516329921880778bbe5887ef8142aa5ae1"
+        checksum: "226c21d5ae5513b74892347f8821927c443007dae685811bd2f5c65f3d70e91c"
     ),
+//    .binaryTarget(
+//        name: "SwiftRefactor",
+//        url: repo + "SwiftRefactor.xcframework.zip",
+//        checksum: "d93d0be1efce0ca8fd5c699c52b507e4ebe336dc2fa54e5ccb66c05a1e79f0f0"
+//    ),
     .binaryTarget(
         name: "SwiftSyntax",
         url: repo + "SwiftSyntax.xcframework.zip",
-        checksum: "c02347fa0522dcfccbb6c75d63a3cf35da392329aef8a10cd8d220a47d722be4"
+        checksum: "5f676be66fafbe710ad1e0f9ffaa958b9c1b5c5210888b5c63a4dd26a5f9c780"
     ),
     .binaryTarget(
         name: "SwiftSyntax509",
         url: repo + "SwiftSyntax509.xcframework.zip",
-        checksum: "f0e83a798d71e9c043aea9564081edd592b8c1b698e0b87234b764087e9d1281"
+        checksum: "e306eab0f38f73f6e38f2acf88be03116f81f8fcfac5ff5ce8bb7ac297c6d9d7"
     ),
     .binaryTarget(
         name: "SwiftSyntaxBuilder",
         url: repo + "SwiftSyntaxBuilder.xcframework.zip",
-        checksum: "d5c28e33d8c287563b900bcacd02084c6aba15165bb529e6ba39685f244db9d6"
+        checksum: "dd7dee50ce64995714e47d0ef57960b708e8c68a1341f71379cb09327dd10f6a"
     ),
     .binaryTarget(
         name: "SwiftSyntaxMacroExpansion",
         url: repo + "SwiftSyntaxMacroExpansion.xcframework.zip",
-        checksum: "9a6fae2bb85e436753359806372443c7fa0ddb6633954879b2fbcfd1b89345d7"
+        checksum: "6a248c115207f1b35518acbbc9adcebfa8e5301ab017fefec67f7567cbf7899f"
     ),
     .binaryTarget(
         name: "SwiftSyntaxMacros",
         url: repo + "SwiftSyntaxMacros.xcframework.zip",
-        checksum: "d2a0147ebddee5fff59a1002762b7abba2fd397673fe11777288dfee0ace6269"
+        checksum: "c5244e8a0a26e73c254f27240b596d796d08ba2b355b3c50741bfc665c65cff5"
     ),
     .binaryTarget(
         name: "SwiftSyntaxMacrosTestSupport",
         url: repo + "SwiftSyntaxMacrosTestSupport.xcframework.zip",
-        checksum: "3b2498b29538f8bae2d69210e7a4a6b4911436af9d358aa9ed4b895273987410"
+        checksum: "918127925b2876d40db4e976299bbaea2dbb4f65f0b12e7cdc27cb50feb6135b"
     ),
     .binaryTarget(
         name: "_SwiftSyntaxTestSupport",
         url: repo + "_SwiftSyntaxTestSupport.xcframework.zip",
-        checksum: "e92ad786336d3977391a41ce91f3493b79b0bc4d894e879f8a7fe20fec19ccec"
+        checksum: "6112e6f801e17649a6c99132f50672ace803a4be303249bf40beb85d06995af8"
     ),
   ]
 )

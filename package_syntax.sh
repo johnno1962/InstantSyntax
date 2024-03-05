@@ -14,7 +14,7 @@
 #
 
 DD=./build
-TAG=509.1.1
+TAG=510.0.0
 DEST=../InstantSyntax/$TAG
 SOURCE=../swift-syntax
 
@@ -37,23 +37,21 @@ lipo -create .build/*-apple-macosx/release/libSwiftCompilerPlugin.a -output $DES
 git checkout Package.swift &&
 
 # These patches required when using xcodebuild.
-git apply <<PATCH &&
+git apply -v <<PATCH &&
 diff --git a/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift b/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift
-index 0d138d55..2f7c1ffd 100644
+index 6ff8ba2b..5c776b2f 100644
 --- a/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift
 +++ b/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift
-@@ -20,6 +20,11 @@ import SwiftSyntaxMacros
- import SwiftSyntaxMacroExpansion
- import XCTest
-
+@@ -358,3 +358,9 @@ public func assertMacroExpansion(
+     }
+   }
+ }
++
 +func XCTFail(_ msg: String, file: StaticString = #file, line: UInt = #line) {
 +
 +}
 +func XCTAssertEqual<G: Equatable>(_ a: G, _ b: G, _ msg: String = "?", file: StaticString = #file, line: UInt = #line) {
 +}
- // MARK: - Note
-
- /// Describes a diagnostic note that tests expect to be created by a macro expansion.
 diff --git a/Sources/_SwiftSyntaxTestSupport/AssertEqualWithDiff.swift b/Sources/_SwiftSyntaxTestSupport/AssertEqualWithDiff.swift
 index 5cbdba15..1f51b91a 100644
 --- a/Sources/_SwiftSyntaxTestSupport/AssertEqualWithDiff.swift
