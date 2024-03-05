@@ -13,20 +13,20 @@
 # swift package generate-xcodeproj
 #
 
-DD=./build
-TAG=509.1.1
+TAG=510.0.0
+DD=/private/tmp/swift-syntax
 DEST=../InstantSyntax/$TAG
 SOURCE=../swift-syntax
 
 cd "$(dirname "$0")" &&
 if [ ! -d $SOURCE ]; then
   git clone https://github.com/apple/swift-syntax.git $SOURCE
-  cp -rf swift-syntax.xcodeproj $SOURCE
+#  cp -rf swift-syntax.xcodeproj $SOURCE
 fi
 
 cd $SOURCE &&
-git stash &&
-git checkout $TAG &&
+#git stash &&
+#git checkout $TAG &&
 
 # This seems to be the easiest way to regenerate the plugin static library.
 sed -e 's/, targets: /, type: .static, targets: /' Package.swift >P.swift &&
@@ -34,66 +34,29 @@ mv -f P.swift Package.swift &&
 arch -arm64 swift build -c release &&
 arch -x86_64 swift build -c release &&
 lipo -create .build/*-apple-macosx/release/libSwiftCompilerPlugin.a -output $DEST/libSwiftSyntax.a &&
-git checkout Package.swift &&
 
-# These patches required when using xcodebuild.
-git apply <<PATCH &&
-diff --git a/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift b/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift
-index 0d138d55..2f7c1ffd 100644
---- a/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift
-+++ b/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift
-@@ -20,6 +20,11 @@ import SwiftSyntaxMacros
- import SwiftSyntaxMacroExpansion
- import XCTest
+#git checkout Package.swift &&
 
-+func XCTFail(_ msg: String, file: StaticString = #file, line: UInt = #line) {
-+
-+}
-+func XCTAssertEqual<G: Equatable>(_ a: G, _ b: G, _ msg: String = "?", file: StaticString = #file, line: UInt = #line) {
-+}
- // MARK: - Note
+sed -e 's/, type: .static, targets: /, type: .dynamic, targets: /' Package.swift >P.swift &&
+mv -f P.swift Package.swift &&
 
- /// Describes a diagnostic note that tests expect to be created by a macro expansion.
-diff --git a/Sources/_SwiftSyntaxTestSupport/AssertEqualWithDiff.swift b/Sources/_SwiftSyntaxTestSupport/AssertEqualWithDiff.swift
-index 5cbdba15..1f51b91a 100644
---- a/Sources/_SwiftSyntaxTestSupport/AssertEqualWithDiff.swift
-+++ b/Sources/_SwiftSyntaxTestSupport/AssertEqualWithDiff.swift
-@@ -143,3 +143,21 @@ public func failStringsEqualWithDiff(
-     XCTFail(fullMessage, file: file, line: line)
-   }
- }
-+
-+func XCTFail(_ msg: String, file: StaticString = #file, line: UInt = #line) {
-+
-+}
-+func XCTAssertTrue(_ msg: Bool, file: StaticString = #file, line: UInt = #line) {
-+
-+}
-+func XCTAssert(_ opt: Bool, _ msg: String = "?", file: StaticString = #file, line: UInt = #line) {
-+
-+}
-+func XCTAssertNil<G>(_ opt: Optional<G>, file: StaticString = #file, line: UInt = #line) {
-+
-+}
-+func XCTUnwrap<G>(_ opt: Optional<G>, file: StaticString = #file, line: UInt = #line) -> G {
-+  return opt!
-+}
-+func XCTAssertEqual<G>(_ a: G, _ b: G, _ msg: String = "?", file: StaticString = #file, line: UInt = #line) {
-+}
-PATCH
+for module in SwiftBasicFormat SwiftCompilerPlugin SwiftCompilerPluginMessageHandling SwiftDiagnostics SwiftIDEUtils SwiftOperators SwiftParser SwiftParserDiagnostics SwiftRefactor SwiftSyntax SwiftSyntaxBuilder SwiftSyntaxMacros SwiftSyntaxMacroExpansion  SwiftSyntaxMacrosTestSupport; do
 
-if [ ! -d build ]; then
-  for sdk in macosx iphonesimulator iphoneos appletvsimulator appletvos xrsimulator xros; do
-    xcodebuild archive -target SwiftSyntax-all -sdk $sdk -project swift-syntax.xcodeproj || exit 1
-  done
-fi &&
-
-for module in SwiftBasicFormat SwiftCompilerPlugin SwiftCompilerPluginMessageHandling SwiftDiagnostics SwiftOperators SwiftParser SwiftParserDiagnostics SwiftSyntax SwiftSyntax509 SwiftSyntaxBuilder SwiftSyntaxMacroExpansion SwiftSyntaxMacros SwiftSyntaxMacrosTestSupport _SwiftSyntaxTestSupport; do
+    for sdk in macosx iphonesimulator iphoneos appletvsimulator appletvos xrsimulator xros; do
+        xcodebuild -scheme $module -configuration Release -destination "generic/platform=${sdk}" -derivedDataPath "$DD/$sdk" BUILD_LIBRARY_FOR_DISTRIBUTION=YES SWIFT_SERIALIZE_DEBUGGING_OPTIONS=NO || exit 1
+    done
 
     PLATFORMS=""
-    for p in $DD/UninstalledProducts/*/$module.framework; do
-      codesign -f --timestamp -s "Developer ID Application" $p || exit 1
-      PLATFORMS="$PLATFORMS -framework $p"
+    for DERIVED in $DD/*; do
+    for FRAMEWORK in $DERIVED/Build/Products/Release*/PackageFrameworks/$module.framework; do
+        PLATFORMS="$PLATFORMS -framework $FRAMEWORK" &&
+
+        mkdir -p "$FRAMEWORK/Modules" &&
+
+        find "$DERIVED/Build" -type d -name $module.swiftmodule | xargs -I {} cp -r {} "$FRAMEWORK/Modules" &&
+
+        codesign -f --timestamp -s "Developer ID Application" "$FRAMEWORK"
+    done
     done
 
     rm -rf $DEST/$module.xcframework
@@ -105,6 +68,7 @@ rm -f *.zip &&
 zip -9 libSwiftSyntax.a.zip libSwiftSyntax.a &&
 
 for f in *.xcframework; do
+    codesign --timestamp -v --sign "Developer ID Application" $f
     zip -r9 --symlinks "$f.zip"  "$f" >>../../zips.txt
     CHECKSUM=`swift package compute-checksum $f.zip`
     cat <<"HERE" | sed -e s/__NAME__/$f/g | sed -e s/.xcframework\",/\",/g | sed -e s/__CHECKSUM__/$CHECKSUM/g | tee -a ../Package.swift
