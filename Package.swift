@@ -67,73 +67,59 @@ let package = Package(
     ),
     .binaryTarget(
         name: "SwiftBasicFormat",
-        url: repo + "SwiftBasicFormat.xcframework.zip",
-        checksum: "65ed8310174ca7c61b7fa0969050f1127265d256cce48ebc875a6c06fc7d8a4b"
+        path: tag + "/" + "SwiftBasicFormat.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftCompilerPlugin",
-        url: repo + "SwiftCompilerPlugin.xcframework.zip",
-        checksum: "1d1ae1d02e17e521ce28bd173bd56603beff0a3d3c19227e8612c675d0e2e9e1"
+        path: tag + "/" + "SwiftCompilerPlugin.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftCompilerPluginMessageHandling",
-        url: repo + "SwiftCompilerPluginMessageHandling.xcframework.zip",
-        checksum: "885b4947f16a035174aa240aa1e043091e4bcdf41ca1b518c028127658fd27ea"
+        path: tag + "/" + "SwiftCompilerPluginMessageHandling.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftDiagnostics",
-        url: repo + "SwiftDiagnostics.xcframework.zip",
-        checksum: "5699d76e8a98b027c4d8d1ff55c5febef0c011dbf9c19a58b045b7e60f5b0f73"
+        path: tag + "/" + "SwiftDiagnostics.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftOperators",
-        url: repo + "SwiftOperators.xcframework.zip",
-        checksum: "0e9df6f921ea7369478296e9de61c10647f3d7617bc587573caf0299bae99feb"
+        path: tag + "/" + "SwiftOperators.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftParser",
-        url: repo + "SwiftParser.xcframework.zip",
-        checksum: "802072fb39b49121165e72debf575101d9c425c299bbd3a0bfbe833ed799583b"
+        path: tag + "/" + "SwiftParser.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftParserDiagnostics",
-        url: repo + "SwiftParserDiagnostics.xcframework.zip",
-        checksum: "9080bbe4ebfd3805b4d31eb7d41d5a516329921880778bbe5887ef8142aa5ae1"
+        path: tag + "/" + "SwiftParserDiagnostics.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftSyntax",
-        url: repo + "SwiftSyntax.xcframework.zip",
-        checksum: "c02347fa0522dcfccbb6c75d63a3cf35da392329aef8a10cd8d220a47d722be4"
+        path: tag + "/" + "SwiftSyntax.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftSyntax509",
-        url: repo + "SwiftSyntax509.xcframework.zip",
-        checksum: "f0e83a798d71e9c043aea9564081edd592b8c1b698e0b87234b764087e9d1281"
+        path: tag + "/" + "SwiftSyntax509.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftSyntaxBuilder",
-        url: repo + "SwiftSyntaxBuilder.xcframework.zip",
-        checksum: "d5c28e33d8c287563b900bcacd02084c6aba15165bb529e6ba39685f244db9d6"
+        path: tag + "/" + "SwiftSyntaxBuilder.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftSyntaxMacroExpansion",
-        url: repo + "SwiftSyntaxMacroExpansion.xcframework.zip",
-        checksum: "9a6fae2bb85e436753359806372443c7fa0ddb6633954879b2fbcfd1b89345d7"
+        path: tag + "/" + "SwiftSyntaxMacroExpansion.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftSyntaxMacros",
-        url: repo + "SwiftSyntaxMacros.xcframework.zip",
-        checksum: "d2a0147ebddee5fff59a1002762b7abba2fd397673fe11777288dfee0ace6269"
+        path: tag + "/" + "SwiftSyntaxMacros.xcframework.zip"
     ),
     .binaryTarget(
         name: "SwiftSyntaxMacrosTestSupport",
-        url: repo + "SwiftSyntaxMacrosTestSupport.xcframework.zip",
-        checksum: "3b2498b29538f8bae2d69210e7a4a6b4911436af9d358aa9ed4b895273987410"
+        path: tag + "/" + "SwiftSyntaxMacrosTestSupport.xcframework.zip"
     ),
     .binaryTarget(
         name: "_SwiftSyntaxTestSupport",
-        url: repo + "_SwiftSyntaxTestSupport.xcframework.zip",
-        checksum: "e92ad786336d3977391a41ce91f3493b79b0bc4d894e879f8a7fe20fec19ccec"
+        path: tag + "/" + "_SwiftSyntaxTestSupport.xcframework.zip"
     ),
   ]
 )

@@ -17,6 +17,7 @@ DD=./build
 TAG=509.1.1
 DEST=../InstantSyntax/$TAG
 SOURCE=../swift-syntax
+XCODED=`xcode-select -p`
 
 cd "$(dirname "$0")" &&
 if [ ! -d $SOURCE ]; then
@@ -31,8 +32,9 @@ git checkout $TAG &&
 # This seems to be the easiest way to regenerate the plugin static library.
 sed -e 's/, targets: /, type: .static, targets: /' Package.swift >P.swift &&
 mv -f P.swift Package.swift &&
-arch -arm64 swift build -c release &&
-arch -x86_64 swift build -c release &&
+rm -rf .build ./build &&
+arch -arm64 $XCODED/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift build -c release &&
+arch -x86_64 $XCODED/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift build -c release &&
 lipo -create .build/*-apple-macosx/release/libSwiftCompilerPlugin.a -output $DEST/libSwiftSyntax.a &&
 git checkout Package.swift &&
 
@@ -84,7 +86,7 @@ PATCH
 
 if [ ! -d build ]; then
   for sdk in macosx iphonesimulator iphoneos appletvsimulator appletvos xrsimulator xros; do
-    xcodebuild archive -target SwiftSyntax-all -sdk $sdk -project swift-syntax.xcodeproj || exit 1
+    $XCODED/usr/bin/xcodebuild archive -target SwiftSyntax-all -sdk $sdk -project swift-syntax.xcodeproj || exit 1
   done
 fi &&
 
@@ -97,7 +99,7 @@ for module in SwiftBasicFormat SwiftCompilerPlugin SwiftCompilerPluginMessageHan
     done
 
     rm -rf $DEST/$module.xcframework
-    xcodebuild -create-xcframework $PLATFORMS -output $DEST/$module.xcframework || exit 1
+    $XCODED/usr/bin/xcodebuild -create-xcframework $PLATFORMS -output $DEST/$module.xcframework || exit 1
 done &&
 
 cd $DEST &&
@@ -106,14 +108,14 @@ zip -9 libSwiftSyntax.a.zip libSwiftSyntax.a &&
 
 for f in *.xcframework; do
     zip -r9 --symlinks "$f.zip"  "$f" >>../../zips.txt
-    CHECKSUM=`swift package compute-checksum $f.zip`
-    cat <<"HERE" | sed -e s/__NAME__/$f/g | sed -e s/.xcframework\",/\",/g | sed -e s/__CHECKSUM__/$CHECKSUM/g | tee -a ../Package.swift
-    .binaryTarget(
-        name: "__NAME__",
-        url: repo + "__NAME__.zip",
-        checksum: "__CHECKSUM__"
-    ),
-HERE
+#    CHECKSUM=`swift package compute-checksum $f.zip`
+#    cat <<"HERE" | sed -e s/__NAME__/$f/g | sed -e s/.xcframework\",/\",/g | sed -e s/__CHECKSUM__/$CHECKSUM/g | tee -a ../Package.swift
+#    .binaryTarget(
+#        name: "__NAME__",
+#        url: repo + "__NAME__.zip",
+#        checksum: "__CHECKSUM__"
+#    ),
+#HERE
 done
 
-echo "Build complete, edit Package.swift to update the checksums"
+echo "Build complete."
