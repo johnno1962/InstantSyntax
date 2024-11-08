@@ -1,6 +1,6 @@
 # InstantSyntax
 
-509.1.1 SwiftSyntax binary frameworks (This package is in beta!)
+509.1.1 SwiftSyntax binary frameworks (This package no longer works!)
 
 This is a Swift Package containg precompiled binary frameworks of the main 
 modules of the [swift-syntax](https://github.com/apple/swift-syntax) project.
