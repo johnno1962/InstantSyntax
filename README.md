@@ -1,2 +1,51 @@
 # InstantSyntax
-SwiftSyntax binary frameworks
+
+### 610.0.1 binary frameworks for https://github.com/swiftlang/swift-syntax
+
+Status 27/4/25: Rebuilt taking the above tag of the swift-syntax repo using 
+Xcode 16.3 and seems to be working quite well using that Xcode. It can work 
+with earlier versions particularly if you open the project in Xcode 16.3 first.
+
+This is a Swift Package containing precompiled binary frameworks of the main 
+modules of the [swift-syntax](https://github.com/swiftlang/swift-syntax) project.
+It is intended this can be packaged up and used in place of the swit-syntax
+source repo by Swift Macro projects to avoid [this problem people have
+ experienced](https://forums.swift.org/t/compilation-extremely-slow-since-macros-adoption/67921/65) 
+It operates by overriding the swift-syntax source repo pulled in by your macros 
+by dragging it onto your project as you would to work on a Swift package as is
+[documented here](https://developer.apple.com/documentation/xcode/editing-a-package-dependency-as-a-local-package).
+
+### TL;DR
+
+To use, build your project (and view any previews you would like to view),
+then clone this repo, renaming the InstantSyntax directory to swift-syntax 
+and unpack the compressed archives using a script exactly as follows:
+
+```
+git clone https://github.com/johnno1962/InstantSyntax -b main --single-branch swift-syntax
+./swift-syntax/601.0.1/unpack.sh
+```
+
+Now, drag this `swift-syntax` clone onto the top level of your project 
+that uses macros. This binary distribution should then take the place 
+of the swift-syntax source repo in the side bar in all macro packages. 
+
+If your project builds but you see errors in the source editor run the
+script ./fix_source_editor.sh supplying the plugin executable path the
+error mentions and the next time you edit the error should go away.
+
+If you still experience problems involving "duplicate copy commands
+being generated" when you try to build, this is beacuse the repo's
+Package.swift seems to tickle some sort of bug in the build system
+related to binary frameworks and you won't be able to use the package
+with that version of Xcode.
+
+These .xcframeworks were a bit involved to build. First, you need to use 
+an old Xcode 13 version of "swift package generate-xcodeproj" to generate 
+a `swift-syntax.xcodeproj` project file and add a build top level setting
+`BUILD_LIBRARY_FOR_DISTRIBUTION = YES`. Then, you can generate and package 
+the binary frameworks using xcodebuild in the normal way. Where extra
+security is imperitive (even though compiler plugins execute in a very
+restrictive sandbox) there is a script `package_syntax.sh` in the repo 
+that allows you to rebuild your own fork of this repo directly from the 
+Apple sources which you can use instead.

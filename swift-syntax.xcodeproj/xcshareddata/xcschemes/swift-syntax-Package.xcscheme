@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "9999"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftBasicFormat"
+               BuildableName = "SwiftBasicFormat.framework"
+               BlueprintName = "SwiftBasicFormat"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftCompilerPlugin"
+               BuildableName = "SwiftCompilerPlugin.framework"
+               BlueprintName = "SwiftCompilerPlugin"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftCompilerPluginMessageHandling"
+               BuildableName = "SwiftCompilerPluginMessageHandling.framework"
+               BlueprintName = "SwiftCompilerPluginMessageHandling"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftDiagnostics"
+               BuildableName = "SwiftDiagnostics.framework"
+               BlueprintName = "SwiftDiagnostics"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftIDEUtils"
+               BuildableName = "SwiftIDEUtils.framework"
+               BlueprintName = "SwiftIDEUtils"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftIfConfig"
+               BuildableName = "SwiftIfConfig.framework"
+               BlueprintName = "SwiftIfConfig"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftLexicalLookup"
+               BuildableName = "SwiftLexicalLookup.framework"
+               BlueprintName = "SwiftLexicalLookup"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftLibraryPluginProvider"
+               BuildableName = "SwiftLibraryPluginProvider.framework"
+               BlueprintName = "SwiftLibraryPluginProvider"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftOperators"
+               BuildableName = "SwiftOperators.framework"
+               BlueprintName = "SwiftOperators"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftParser"
+               BuildableName = "SwiftParser.framework"
+               BlueprintName = "SwiftParser"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftParserDiagnostics"
+               BuildableName = "SwiftParserDiagnostics.framework"
+               BlueprintName = "SwiftParserDiagnostics"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftRefactor"
+               BuildableName = "SwiftRefactor.framework"
+               BlueprintName = "SwiftRefactor"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntax"
+               BuildableName = "SwiftSyntax.framework"
+               BlueprintName = "SwiftSyntax"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntax-all"
+               BuildableName = "SwiftSyntax_all.framework"
+               BlueprintName = "SwiftSyntax-all"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntax509"
+               BuildableName = "SwiftSyntax509.framework"
+               BlueprintName = "SwiftSyntax509"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntax510"
+               BuildableName = "SwiftSyntax510.framework"
+               BlueprintName = "SwiftSyntax510"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntax600"
+               BuildableName = "SwiftSyntax600.framework"
+               BlueprintName = "SwiftSyntax600"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntax601"
+               BuildableName = "SwiftSyntax601.framework"
+               BlueprintName = "SwiftSyntax601"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntaxBuilder"
+               BuildableName = "SwiftSyntaxBuilder.framework"
+               BlueprintName = "SwiftSyntaxBuilder"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntaxMacroExpansion"
+               BuildableName = "SwiftSyntaxMacroExpansion.framework"
+               BlueprintName = "SwiftSyntaxMacroExpansion"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntaxMacros"
+               BuildableName = "SwiftSyntaxMacros.framework"
+               BlueprintName = "SwiftSyntaxMacros"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntaxMacrosGenericTestSupport"
+               BuildableName = "SwiftSyntaxMacrosGenericTestSupport.framework"
+               BlueprintName = "SwiftSyntaxMacrosGenericTestSupport"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntaxMacrosTestSupport"
+               BuildableName = "SwiftSyntaxMacrosTestSupport.framework"
+               BlueprintName = "SwiftSyntaxMacrosTestSupport"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::_InstructionCounter"
+               BuildableName = "_InstructionCounter.framework"
+               BlueprintName = "_InstructionCounter"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::_SwiftLibraryPluginProviderCShims"
+               BuildableName = "_SwiftLibraryPluginProviderCShims.framework"
+               BlueprintName = "_SwiftLibraryPluginProviderCShims"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::_SwiftSyntaxCShims"
+               BuildableName = "_SwiftSyntaxCShims.framework"
+               BlueprintName = "_SwiftSyntaxCShims"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::_SwiftSyntaxGenericTestSupport"
+               BuildableName = "_SwiftSyntaxGenericTestSupport.framework"
+               BlueprintName = "_SwiftSyntaxGenericTestSupport"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::_SwiftSyntaxTestSupport"
+               BuildableName = "_SwiftSyntaxTestSupport.framework"
+               BlueprintName = "_SwiftSyntaxTestSupport"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::PerformanceTest"
+               BuildableName = "PerformanceTest.xctest"
+               BlueprintName = "PerformanceTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftBasicFormatTest"
+               BuildableName = "SwiftBasicFormatTest.xctest"
+               BlueprintName = "SwiftBasicFormatTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftCompilerPluginTest"
+               BuildableName = "SwiftCompilerPluginTest.xctest"
+               BlueprintName = "SwiftCompilerPluginTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftDiagnosticsTest"
+               BuildableName = "SwiftDiagnosticsTest.xctest"
+               BlueprintName = "SwiftDiagnosticsTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftIDEUtilsTest"
+               BuildableName = "SwiftIDEUtilsTest.xctest"
+               BlueprintName = "SwiftIDEUtilsTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftIfConfigTest"
+               BuildableName = "SwiftIfConfigTest.xctest"
+               BlueprintName = "SwiftIfConfigTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftLexicalLookupTest"
+               BuildableName = "SwiftLexicalLookupTest.xctest"
+               BlueprintName = "SwiftLexicalLookupTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftOperatorsTest"
+               BuildableName = "SwiftOperatorsTest.xctest"
+               BlueprintName = "SwiftOperatorsTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftParserDiagnosticsTest"
+               BuildableName = "SwiftParserDiagnosticsTest.xctest"
+               BlueprintName = "SwiftParserDiagnosticsTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftParserTest"
+               BuildableName = "SwiftParserTest.xctest"
+               BlueprintName = "SwiftParserTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftRefactorTest"
+               BuildableName = "SwiftRefactorTest.xctest"
+               BlueprintName = "SwiftRefactorTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntaxBuilderTest"
+               BuildableName = "SwiftSyntaxBuilderTest.xctest"
+               BlueprintName = "SwiftSyntaxBuilderTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntaxMacroExpansionTest"
+               BuildableName = "SwiftSyntaxMacroExpansionTest.xctest"
+               BlueprintName = "SwiftSyntaxMacroExpansionTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntaxMacrosTestSupportTests"
+               BuildableName = "SwiftSyntaxMacrosTestSupportTests.xctest"
+               BlueprintName = "SwiftSyntaxMacrosTestSupportTests"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntaxTest"
+               BuildableName = "SwiftSyntaxTest.xctest"
+               BlueprintName = "SwiftSyntaxTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-syntax::SwiftSyntaxTestSupportTest"
+               BuildableName = "SwiftSyntaxTestSupportTest.xctest"
+               BlueprintName = "SwiftSyntaxTestSupportTest"
+               ReferencedContainer = "container:swift-syntax.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>
