@@ -22,7 +22,7 @@ then clone this repo, renaming the InstantSyntax directory to swift-syntax
 and unpack the compressed archives using a script exactly as follows:
 
 ```
-git clone https://github.com/johnno1962/InstantSyntax -b main --single-branch swift-syntax
+git clone https://github.com/johnno1962/InstantSyntax -b statics --single-branch swift-syntax
 ./swift-syntax/601.0.1/unpack.sh
 ```
 
@@ -37,8 +37,8 @@ error mentions and the next time you edit the error should go away.
 If you still experience problems involving "duplicate copy commands
 being generated" when you try to build, this is beacuse the repo's
 Package.swift seems to tickle some sort of bug in the build system
-related to binary frameworks and you won't be able to use the package
-with that version of Xcode.
+related to binary frameworks. Try closing and reopening your project
+or you won't be able to use the package with that version of Xcode.
 
-The binary .xcframeworks are repackaged from those which are part
-of the https://github.com/swift-precompiled/swift-syntax repo.
+The binary .xcframeworks are Apache licensed from the repo 
+https://github.com/swift-precompiled/swift-syntax .
