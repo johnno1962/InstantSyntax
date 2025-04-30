@@ -23,22 +23,15 @@ and unpack the compressed archives using a script exactly as follows:
 
 ```
 git clone https://github.com/johnno1962/InstantSyntax -b statics --single-branch swift-syntax
-./swift-syntax/601.0.1/unpack.sh
 ```
 
 Now, drag this `swift-syntax` clone onto the top level of your project 
 that uses macros. This binary distribution should then take the place 
 of the swift-syntax source repo in the side bar in all macro packages. 
 
-If your project builds but you see errors in the source editor run the
-script ./fix_source_editor.sh supplying the plugin executable path the
-error mentions and the next time you edit the error should go away.
+If you still experience problems involving "duplicate copy commands being 
+generated" when you try to build, try closing and reopening your project.
 
-If you still experience problems involving "duplicate copy commands
-being generated" when you try to build, this is beacuse the repo's
-Package.swift seems to tickle some sort of bug in the build system
-related to binary frameworks. Try closing and reopening your project
-or you won't be able to use the package with that version of Xcode.
-
-The binary .xcframeworks are Apache licensed from the repo 
-https://github.com/swift-precompiled/swift-syntax .
+Use package_syntax.sh if you would like to rebuild from Apple's source.
+A huge thanks to repo https://github.com/swift-precompiled/swift-syntax
+which showed it was possible package static libraries in .xcframeworks.

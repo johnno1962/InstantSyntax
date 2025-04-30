@@ -1,0 +1,4 @@
+module _InstructionCounter {
+    umbrella "/private/tmp/swift-syntax/Sources/_InstructionCounter/include"
+    export *
+}
