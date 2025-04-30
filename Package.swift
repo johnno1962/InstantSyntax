@@ -7,7 +7,7 @@ let tag = "601.0.1" // swift-syntax version
 let archive = "https://github.com/swift-precompiled/swift-syntax/releases/download/"+tag
 let modules: [(name: String, checksum: String, depends: [String])] = [
   ("SwiftBasicFormat", "2c498972cdb297a440b7c962cc05396fd4860d60de45d88e7fa7544e6c167077", ["SwiftSyntax509"]),
-  ("SwiftCompilerPlugin", "5a51dbb55b212f66747bba8713b2178b0cab46b5d160a1d3f471209a6654e51f", ["SwiftCompilerPluginMessageHandling", "SwiftSyntaxMacroExpansion", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftBasicFormat", "SwiftOperators", "SwiftParser", "SwiftDiagnostics", "SwiftSyntax", "SwiftSyntax509", "SwiftSyntax510", "SwiftSyntax600", "SwiftSyntax601", "_SwiftSyntaxCShims"]),
+  ("SwiftCompilerPlugin", "5a51dbb55b212f66747bba8713b2178b0cab46b5d160a1d3f471209a6654e51f", ["SwiftCompilerPluginMessageHandling", "SwiftSyntaxMacroExpansion", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftBasicFormat", "SwiftOperators", "SwiftParser", "SwiftDiagnostics", "SwiftSyntax", "SwiftSyntax509", "SwiftSyntax510", "SwiftSyntax600", "SwiftSyntax601", /*"_SwiftSyntaxCShims"*/]),
   ("SwiftCompilerPluginMessageHandling", "ef395ccf6bbb18388a539a67ad94927c2a748d3b120dcc7cbfbb3e67a5cf3dc1", ["SwiftSyntaxMacroExpansion", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftBasicFormat", "SwiftOperators", "SwiftParser", "SwiftDiagnostics", "SwiftSyntax", "SwiftSyntax509"]),
   ("SwiftDiagnostics", "0ca8f91e0c0b53905da9d82f2e69d01d2f6b48c252e1775730a74a3cd0354760", ["SwiftSyntax509"]),
   ("SwiftIDEUtils", "f4b1df344d77851b85a8c21310101e37779efb90bb3ae5d318f234496b25d4f4", ["SwiftSyntax509"]),
@@ -22,11 +22,11 @@ let modules: [(name: String, checksum: String, depends: [String])] = [
   ("SwiftSyntax510", "286beafe90a8b5d1bf38d1bc81d99f8c0925f5df3fdb43b3ea27947ab37dadae", []),
   ("SwiftSyntax600", "9fe071ba080666feb341f4f22379bc70243e17664e13e12284516f836fd9bc19", []),
   ("SwiftSyntax601", "24c4e8357ef8d7891d86a12ef2c85b0399fa7c37a4c434b85f775b415582e2e3", []),
-  ("_SwiftSyntaxCShims", "1c620be31b51590e9420668d13d45b197aad28c0a53d73dec30274c40cd4d993", []),
   ("SwiftSyntaxBuilder", "95101b35e0735fc839794fb601607c741c003c912420b7bf4b23dd81b1fa9e19", ["SwiftParserDiagnostics", "SwiftDiagnostics", "SwiftParser", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
   ("SwiftSyntaxMacroExpansion", "58629356b78b4486047f8efbba9dc05fd7174d8b01171078771628f0269959eb", ["SwiftOperators", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftDiagnostics", "SwiftParser", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
   ("SwiftSyntaxMacros", "f12a8bd28801b45a07c2df8f0961bf791135af39b8ce8283e9cb9ad181c49fab", ["SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftSyntax", "SwiftSyntax509"]),
   ("SwiftSyntaxMacrosTestSupport", "acbc76f207113bc8f887c265ab4dfb04b031c794088eb4eef09e7c0bde971332", [/*"_SwiftSyntaxTestSupport", */"SwiftSyntaxMacroExpansion", "SwiftOperators", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftDiagnostics", "SwiftParser", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
+//  ("_SwiftSyntaxCShims", "1c620be31b51590e9420668d13d45b197aad28c0a53d73dec30274c40cd4d993", []),
 //  ("_SwiftSyntaxTestSupport", ["SwiftSyntaxMacroExpansion", "SwiftOperators", "SwiftSyntaxMacros", "SwiftSyntaxBuilder", "SwiftParserDiagnostics", "SwiftDiagnostics", "SwiftParser", "SwiftBasicFormat", "SwiftSyntax", "SwiftSyntax509"]),
 //  ("_SwiftCompilerPluginMessageHandling", []),
 //  ("_SwiftLibraryPluginProvider", []),
@@ -48,8 +48,7 @@ let package = Package(
   targets: modules.map {
       .binaryTarget(
           name: $0.name,
-          url: archive+"/\($0.name).xcframework.zip",
-          checksum: $0.checksum
+          path: tag + "/" + "\($0.name).xcframework.zip"
       )
   }
 )
