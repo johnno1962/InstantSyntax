@@ -30,25 +30,35 @@ git stash &&
 git checkout $TAG &&
 
 git apply <<RENAME
-index 10adca69..52310baf 100644
+diff --git a/Package.swift b/Package.swift
+index 10adca69..7329c65d 100644
 --- a/Package.swift
 +++ b/Package.swift
-@@ -40,7 +40,11 @@ if buildDynamicLibrary {
+@@ -40,8 +40,14 @@ if buildDynamicLibrary {
      .library(name: "SwiftSyntaxMacroExpansion", targets: ["SwiftSyntaxMacroExpansion"]),
      .library(name: "SwiftSyntaxMacrosTestSupport", targets: ["SwiftSyntaxMacrosTestSupport"]),
      .library(name: "SwiftSyntaxMacrosGenericTestSupport", targets: ["SwiftSyntaxMacrosGenericTestSupport"]),
--    .library(name: "_SwiftCompilerPluginMessageHandling", targets: ["SwiftCompilerPluginMessageHandling"]),
 +    .library(name: "SwiftSyntax509", targets: ["SwiftSyntax509"]),
 +    .library(name: "SwiftSyntax510", targets: ["SwiftSyntax510"]),
 +    .library(name: "SwiftSyntax600", targets: ["SwiftSyntax600"]),
 +    .library(name: "SwiftSyntax601", targets: ["SwiftSyntax601"]),
 +    .library(name: "SwiftCompilerPluginMessageHandling", targets: ["SwiftCompilerPluginMessageHandling"]),
+     .library(name: "_SwiftCompilerPluginMessageHandling", targets: ["SwiftCompilerPluginMessageHandling"]),
      .library(name: "_SwiftLibraryPluginProvider", targets: ["SwiftLibraryPluginProvider"]),
++    .library(name: "_SwiftSyntaxTestSupport", targets: ["_SwiftSyntaxTestSupport"]),
    ]
  }
+ 
 RENAME
 
-export MODULES=`cd Sources; echo {Swift,_}*; cd VersionMarkerModules; echo *`
+export MODULES="SwiftCompilerPluginMessageHandling"
+for module in `cd Sources; echo {Swift,_}*; cd VersionMarkerModules; echo *`; do
+    if [[ $module =~ \.txt ]]; then echo "Skipping $module"
+    elif grep ".library(name: \"_$module\"" $SOURCE/Package.swift
+    then MODULES="_$module $MODULES"
+    else MODULES="$module $MODULES"
+    fi
+done
 export PLATFORMS="${3:-macOS iOS iOS_Simulator tvOS_Simulator}"
 export CONDITIONS="RESILIENT_LIBRARIES"
 export PARALLEL_BUILDS=4
@@ -72,7 +82,7 @@ PACKAGE
 cat <<'INNER' >/tmp/INNER.sh
         PLATFORM=$1
         DDATA="$SOURCE/build.$PLATFORM"
-        time $XCODED/usr/bin/xcodebuild archive -scheme $MODULE -quiet -configuration $CONFIG -destination "generic/platform=$(echo $PLATFORM | sed -e 's/_/ /g')" -archivePath $SOURCE/archives/$MODULE-$PLATFORM.xcarchive -derivedDataPath $DDATA SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES SWIFT_SERIALIZE_DEBUGGING_OPTIONS=NO SWIFT_ACTIVE_COMPILATION_CONDITIONS="$CONDITIONS" || exit 1
+        time $XCODED/usr/bin/xcodebuild -scheme $MODULE -quiet -configuration $CONFIG -destination "generic/platform=$(echo $PLATFORM | sed -e 's/_/ /g')" -archivePath $SOURCE/archives/$MODULE-$PLATFORM.xcarchive -derivedDataPath $DDATA SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES SWIFT_SERIALIZE_DEBUGGING_OPTIONS=NO SWIFT_ACTIVE_COMPILATION_CONDITIONS="$CONDITIONS" || exit 1
 INNER
 
 for MODULE in $MODULES; do
@@ -89,7 +99,7 @@ PACKAGE
         DDATA="$SOURCE/build.$PLATFORM"
         LIB="$DDATA/lib$MODULE.a"
         rm -f $DDATA/lib$MODULE*.a &&
-        cd $DDATA/Build/Intermediates.noindex/ArchiveIntermediates/*/IntermediateBuildFilesPath/*.build/$CONFIG*/$MODULE.build/Objects-normal &&
+        cd $DDATA/Build/Intermediates.noindex/*.build/$CONFIG*/*`echo $MODULE | sed s/^_//`.build/Objects-normal &&
         for ARCH in *; do
             ar qv $DDATA/lib$MODULE.$ARCH.a $ARCH/*.o &&
             ranlib $DDATA/lib$MODULE.$ARCH.a
@@ -103,8 +113,8 @@ PACKAGE
 
     cd $DEST/$MODULE.xcframework && for VARIANT in *; do if [ $VARIANT != "Info.plist" ]; then
         DIR=`readlink "$SOURCE/$VARIANT"`
-        cp -r $SOURCE/build.*/Build/Intermediates.noindex/ArchiveIntermediates/*/BuildProductsPath/$DIR/$MODULE.swiftmodule $VARIANT ||
-        cp -rf $SOURCE/build.*/Build/Intermediates.noindex/ArchiveIntermediates/*/BuildProductsPath/$DIR/SwiftSyntax509.swiftmodule $VARIANT/$MODULE.swiftmodule
+        cp -r $SOURCE/build.*/Build/Products/$DIR/$MODULE.swiftmodule $VARIANT ||
+        cp -rf $SOURCE/build.*/Build/Products/$DIR/SwiftSyntax509.swiftmodule $VARIANT/$MODULE.swiftmodule
     fi done
 
     cd $DEST && rm -f $MODULE.xcframework.zip $MODULE.xcframework/*/*/*.swiftmodule &&
