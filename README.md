@@ -2,8 +2,11 @@
 
 ### 610.0.1 binary frameworks for https://github.com/swiftlang/swift-syntax
 
-Status 2/5/25: Rebuilt taking the above tag of the swift-syntax repo using 
+Status 9/5/25: Rebuilt taking the above tag of the swift-syntax repo using 
 Xcode 15.4 and seems to be working quite well using all Xcodes 15-16.
+You would now normally use the pre-clonned and renamed repo 
+https://github.com/johnno1962/swift-syntax directly 
+as described in the updated README.md there.
 
 © https://xkcd.com/303/ - I compile swift-syntax so you don't have to.
 
